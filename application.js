@@ -14,15 +14,21 @@ $(function() {
 
 	var get_city_list =  function(query) {
 		$.ajax({
-			url: "http://autocomplete.wunderground.com/aq?query=" + query,
+			url: "http://autocomplete.wunderground.com/aq?cb=cb_func&query=" + query,
 			type: "GET",
 			dataType: "jsonp",
+			callback: "cb_func", 
 			success: function(parsed_json) {
-	console.log("getting city list");
-}
+	      console.log("getting city list");
+	      console.log(JSON.parse(parsed_json));
+		  }
 		});
 	}
 
+
+	window.cb_func = function(result) {
+		console.log("resultttt!", result);
+	}
 	$('#search').submit(function(event) {
 		console.log("searching");
 		event.preventDefault();
@@ -31,7 +37,8 @@ $(function() {
 		$.each($('#search').serializeArray(), function(i, field) {
 			value[field.name] = field.value;
 		});
-
+    
 		console.log(value);
+		get_city_list(value['query'])
 	})
 });
