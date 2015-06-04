@@ -28,7 +28,7 @@ $(function() {
 			console.log(indexInArray)
 			$.each(value, function(idx, result) {
 				console.log(result);
-				$("<div>").data("id", result.l).text(result.name).appendTo("#search-results");
+				$("<div>").data("id", result.l).addClass("weather-station").text(result.name).appendTo("#search-results");
 			});
 		});
 	}
