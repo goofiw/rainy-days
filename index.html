@@ -1,17 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!--
-    application.css is where you put your styles
-  -->
-  <link rel="stylesheet" href="/application.css">
-
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script src="/application.js"></script>
-
+  <link rel="stylesheet" href="application.css">
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
+  <script src="application.js" type="text/javascript"></script>
   <title>Rain Guage</title>
 </head>
 
 <body>
-  <div id="container"></div>
+
+  <h1>Rain Gauge</h1>
+  <p>A website for looking up the rainfall on certain days</p>
+  <div>
+    <form id="search">
+      <input type="text" name="query" placeholder="enter city name">
+      <input type="date" name="date" placeholder="select a date">
+      <input type="submit" name="submit">
+    </form>
+  </div>
+  <div id="container">
+    
+
+  </div>
 </body>
