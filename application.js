@@ -1,7 +1,7 @@
 
 
 $(function() {
-
+  var weather_stations;
 	var get_history = function(location, date){
 		$.ajax({
 			url : "http://api.wunderground.com/api/" + WU_KEY + "/geolookup/conditions/q/IA/" + location + ".json",
@@ -17,17 +17,20 @@ $(function() {
 			url: "http://autocomplete.wunderground.com/aq?cb=cb_func&query=" + query,
 			type: "GET",
 			dataType: "jsonp",
-			callback: "cb_func", 
-			success: function(parsed_json) {
-	      console.log("getting city list");
-	      console.log(JSON.parse(parsed_json));
-		  }
+			callback: "cb_func"
 		});
 	}
 
-
 	window.cb_func = function(result) {
-		console.log("resultttt!", result);
+    console.log(result);
+		$.each(result, function(indexInArray, value) {
+			console.log(value);
+			console.log(indexInArray)
+			$.each(value, function(idx, result) {
+				console.log(result);
+				$("<div>").data("id", result.l).text(result.name).appendTo("#search-results");
+			});
+		});
 	}
 	$('#search').submit(function(event) {
 		console.log("searching");
