@@ -1,7 +1,7 @@
 
 
 $(function() {
-  var weather_stations, selected_station, selected_date;
+  var weather_stations, selected_station, selected_date, parsed_date, parsed_station;
 
   //returns an array with the station name and country or state code to use in 
   //the WU http request for historical weather data
@@ -16,15 +16,6 @@ $(function() {
   var parse_date = function(date) {
   	return date.replace(/-/g, "");
   }
-	var get_history = function(location, date){
-		$.ajax({
-			url : "http://api.wunderground.com/api/" + WU_KEY + "/geolookup/conditions/q/IA/" + location + ".json",
-			dataType : "jsonp",
-			success : function(parsed_json) {
-		console.log("success");
-			}
-		});
-	}
 
 	var get_city_list =  function(query) {
 		$.ajax({
@@ -38,12 +29,14 @@ $(function() {
 	var get_weather_data = function(date, station_name, country) {
     //http://api.wunderground.com/api/[KEY]/history_YYYYMMDD/q/CA/San_Francisco.json
     		$.ajax({
-			url: "http://api.wunderground.com/api/[KEY]/history_" + date + "/q/" + country + "/" + station_name + ".json",
+			url: "http://api.wunderground.com/api/" + "KEY" + "/history_" + date + "/q/" + country + "/" + station_name + ".json",
 			type: "GET",
 			dataType: "jsonp",
-			callback: "cb_func"
+			callback: "cb_func"  // need a different call back
 		});
 	}
+
+	//add callback to get rainfall in inches and display on page
 
 	window.cb_func = function(result) {
     console.log(result);
@@ -79,7 +72,7 @@ $(function() {
            .remove();
     selected_station = $(this).data('name');
     parsed_station = parse_weather_station(selected_station);
-    console.log(parsed_station)
+    parsed_date = parse_date(selected_date);
 	  get_weather_data(parsed_date, parsed_station[0], parsed_station[1]);
 	});
 });
