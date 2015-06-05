@@ -2,6 +2,10 @@
 
 $(function() {
   var weather_stations, selected_station;
+
+  var parse_weather_station = function(station_name) {
+  	return 'split:', station_name.split(', ');
+  }
 	var get_history = function(location, date){
 		$.ajax({
 			url : "http://api.wunderground.com/api/" + WU_KEY + "/geolookup/conditions/q/IA/" + location + ".json",
@@ -22,7 +26,7 @@ $(function() {
 	}
 
 	var get_weather_data = function(date, station_name) {
-
+    //http://api.wunderground.com/api/[KEY]/history_YYYYMMDD/q/CA/San_Francisco.json
 	}
 
 	window.cb_func = function(result) {
@@ -59,5 +63,6 @@ $(function() {
            .siblings()
            .remove();
     selected_station = $(this).data('name');
-	})
+    console.log(parse_weather_station(selected_station));
+	});
 });
