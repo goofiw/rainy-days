@@ -21,6 +21,10 @@ $(function() {
 		});
 	}
 
+	var get_weather_data = function(date, country, station_name) {
+		
+	}
+
 	window.cb_func = function(result) {
     console.log(result);
 		$.each(result, function(indexInArray, value) {
@@ -28,10 +32,16 @@ $(function() {
 			console.log(indexInArray)
 			$.each(value, function(idx, result) {
 				console.log(result);
-				$("<div>").data("id", result.l).addClass("weather-station").text(result.name).appendTo("#search-results");
+				$("<li>")
+				.data("country_code", result.c)
+				.data("name", result.name)
+				.addClass("weather-station")
+				.text(result.name)
+				.appendTo("#search-results");
 			});
 		});
 	}
+
 	$('#search').submit(function(event) {
 		console.log("searching");
 		event.preventDefault();
