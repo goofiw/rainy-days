@@ -1,10 +1,20 @@
 
 
 $(function() {
-  var weather_stations, selected_station;
+  var weather_stations, selected_station, selected_date;
 
+  //returns an array with the station name and country or state code to use in 
+  //the WU http request for historical weather data
   var parse_weather_station = function(station_name) {
-  	return 'split:', station_name.split(', ');
+  	var split = station_name.split(', ');
+  	var parsed = split.map(function(word) {
+      return word.replace(/ /g, "_");
+  	});
+  	return parsed
+  }
+
+  var parse_date = function(date) {
+  	return date.replace(/-/g, "");
   }
 	var get_history = function(location, date){
 		$.ajax({
@@ -25,8 +35,14 @@ $(function() {
 		});
 	}
 
-	var get_weather_data = function(date, station_name) {
+	var get_weather_data = function(date, station_name, country) {
     //http://api.wunderground.com/api/[KEY]/history_YYYYMMDD/q/CA/San_Francisco.json
+    		$.ajax({
+			url: "http://api.wunderground.com/api/[KEY]/history_" + date + "/q/" + country + "/" + station_name + ".json",
+			type: "GET",
+			dataType: "jsonp",
+			callback: "cb_func"
+		});
 	}
 
 	window.cb_func = function(result) {
@@ -53,9 +69,8 @@ $(function() {
 		$.each($('#search').serializeArray(), function(i, field) {
 			value[field.name] = field.value;
 		});
-    
-		console.log(value);
-		get_city_list(value['query'])
+    selected_date = value['date'];
+		get_city_list(value['query']);
 	})
 
 	$('#search-results').on('click', '.weather-station', function(){
@@ -63,6 +78,8 @@ $(function() {
            .siblings()
            .remove();
     selected_station = $(this).data('name');
-    console.log(parse_weather_station(selected_station));
+    parsed_station = parse_weather_station(selected_station);
+    console.log(parsed_station)
+	  get_weather_data(parsed_date, parsed_station[0], parsed_station[1]);
 	});
 });
