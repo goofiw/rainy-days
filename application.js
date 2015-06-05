@@ -22,9 +22,26 @@ $(function() {
 			url: "http://autocomplete.wunderground.com/aq?cb=cb_func&query=" + query,
 			type: "GET",
 			dataType: "jsonp",
-			callback: "cb_func"
+			callback: "cd_func"
 		});
 	}
+
+		window.cb_func = function(result) {
+    console.log(result);
+		$.each(result, function(indexInArray, value) {
+			console.log(value);
+			console.log(indexInArray)
+			$.each(value, function(idx, result) {
+				console.log(result);
+				$("<li>")
+				.data("name", result.name)
+				.addClass("weather-station")
+				.text(result.name)
+				.appendTo("#search-results");
+			});
+		});
+	}
+
 
 	var get_weather_data = function(date, station_name, country) {
     //http://api.wunderground.com/api/[KEY]/history_YYYYMMDD/q/CA/San_Francisco.json
@@ -32,7 +49,13 @@ $(function() {
 			url: "http://api.wunderground.com/api/" + "KEY" + "/history_" + date + "/q/" + country + "/" + station_name + ".json",
 			type: "GET",
 			dataType: "jsonp",
-			callback: "cb_func"  // need a different call back
+			success: function(data) {
+				var rainInches = data.history.dailysummary[0].rain;
+				$("<div>")
+				.text(rainInches + " Inches")
+				.addClass(".rain-inches")
+				.appendTo(".rainfall");			
+			}  // need a different call back
 		});
 	}
 
@@ -73,6 +96,7 @@ $(function() {
     selected_station = $(this).data('name');
     parsed_station = parse_weather_station(selected_station);
     parsed_date = parse_date(selected_date);
+    console.log(parsed_date, parsed_station);
 	  get_weather_data(parsed_date, parsed_station[0], parsed_station[1]);
 	});
 });

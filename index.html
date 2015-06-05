@@ -11,15 +11,18 @@
 
   <h1>Rain Gauge</h1>
   <p>A website for looking up the rainfall on certain days</p>
-  <div>
-    <form id="search">
-      <input type="text" name="query" placeholder="enter city name">
-      <input type="date" name="date" placeholder="select a date">
-      <input type="submit" name="submit">
-    </form>
-  </div>
-  <div id="container">
-    <ul id="search-results"></ul>
 
+  <div id="container">
+    <div class="search">
+      <form id="search">
+        <input type="text" name="query" placeholder="enter city name">
+        <input type="date" name="date" placeholder="select a date">
+        <input type="submit" name="submit">
+      </form>
+      <ul id="search-results"></ul>
+    </div>
+
+    <div class="rainfall">
+    </div>
   </div>
 </body>
