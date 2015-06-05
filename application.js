@@ -1,7 +1,7 @@
 
 
 $(function() {
-  var weather_stations;
+  var weather_stations, selected_station;
 	var get_history = function(location, date){
 		$.ajax({
 			url : "http://api.wunderground.com/api/" + WU_KEY + "/geolookup/conditions/q/IA/" + location + ".json",
@@ -21,8 +21,8 @@ $(function() {
 		});
 	}
 
-	var get_weather_data = function(date, country, station_name) {
-		
+	var get_weather_data = function(date, station_name) {
+
 	}
 
 	window.cb_func = function(result) {
@@ -33,7 +33,6 @@ $(function() {
 			$.each(value, function(idx, result) {
 				console.log(result);
 				$("<li>")
-				.data("country_code", result.c)
 				.data("name", result.name)
 				.addClass("weather-station")
 				.text(result.name)
@@ -53,5 +52,12 @@ $(function() {
     
 		console.log(value);
 		get_city_list(value['query'])
+	})
+
+	$('#search-results').on('click', '.weather-station', function(){
+    $(this).css('background-color', '#add8e6')
+           .siblings()
+           .remove();
+    selected_station = $(this).data('name');
 	})
 });
