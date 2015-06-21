@@ -1,7 +1,6 @@
 var http = require('http');
 fs = require('fs');
 
-
 var server = http.createServer(function(req, res) {
 	console.log(req.method, req.url);
   switch(req.url) {

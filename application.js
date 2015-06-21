@@ -1,4 +1,4 @@
-
+var secrets = require('./secrets');
 
 $(function() {
   var weather_stations, selected_station, selected_date, parsed_date, parsed_station;
@@ -46,10 +46,11 @@ $(function() {
 	var get_weather_data = function(date, station_name, country) {
     //http://api.wunderground.com/api/[KEY]/history_YYYYMMDD/q/CA/San_Francisco.json
     		$.ajax({
-			url: "http://api.wunderground.com/api/" + "KEY" + "/history_" + date + "/q/" + country + "/" + station_name + ".json",
+			url: "http://api.wunderground.com/api/" + secrets['key'] + "/history_" + date + "/q/" + country + "/" + station_name + ".json",
 			type: "GET",
 			dataType: "jsonp",
 			success: function(data) {
+        console.log(data);
 				var rainInches = data.history.dailysummary[0].rain;
 				$("<div>")
 				.text(rainInches + " Inches")
@@ -75,7 +76,7 @@ $(function() {
 				.appendTo("#search-results");
 			});
 		});
-	}
+}
 
 	$('#search').submit(function(event) {
 		console.log("searching");
